@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 19:43:25 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/21 13:58:04 by hel-makh         ###   ########.fr       */
+/*   Created: 2021/12/21 19:00:30 by hel-makh          #+#    #+#             */
+/*   Updated: 2021/12/21 19:00:44 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char	*ft_free(void *ptr)
-{
-	free(ptr);
-	return (NULL);
-}
-
-void	ft_free_2d(char **array)
+char	*ft_strcpy(char *dst, const char *src)
 {
 	int	i;
 
 	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
-
-void	ft_free_3d(char ***array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-		ft_free_2d(array[i++]);
+	while (src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i ++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

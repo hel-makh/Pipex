@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 19:43:25 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/21 13:58:04 by hel-makh         ###   ########.fr       */
+/*   Created: 2021/12/21 17:24:23 by hel-makh          #+#    #+#             */
+/*   Updated: 2021/12/21 17:25:20 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char	*ft_free(void *ptr)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	free(ptr);
-	return (NULL);
-}
-
-void	ft_free_2d(char **array)
-{
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (array[i])
-		free(array[i++]);
-	free(array);
-}
-
-void	ft_free_3d(char ***array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-		ft_free_2d(array[i++]);
+	while (s1[i] != '\0' || s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i ++;
+	}
+	return (0);
 }
