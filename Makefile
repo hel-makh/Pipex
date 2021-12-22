@@ -4,15 +4,18 @@ INCDIR			=	./includes
 
 HEADER			=	$(INCDIR)/pipex.h
 
+HEADER_BONUS	=	$(HEADER)\
+					$(INCDIR)/pipex_bonus.h
+
 NAME			=	pipex
 
 MAIN			=	main.c
 
 MAIN_BONUS		=	main_bonus.c\
-					here_doc.c
+					here_doc.c\
 					$(SRCSDIR)/ft_strcmp.c\
 					$(SRCSDIR)/ft_strncmp.c\
-					$(SRCSDIR)/get_next_line.c\
+					$(SRCSDIR)/get_next_line.c
 
 SRCS			=	$(SRCSDIR)/ft_strlen.c\
 					$(SRCSDIR)/ft_strcpy.c\
@@ -45,7 +48,7 @@ RM				=	rm -f
 $(NAME):		$(OBJS) $(HEADER)
 				$(GCC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-bonus:			$(OBJS_BONUS) $(HEADER)
+bonus:			$(OBJS_BONUS) $(HEADER_BONUS)
 				$(GCC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME)
 
 all:			$(NAME)

@@ -6,11 +6,11 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 18:52:26 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/21 18:52:27 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/22 22:03:00 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

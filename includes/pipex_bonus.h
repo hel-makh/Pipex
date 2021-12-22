@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 17:24:23 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/22 22:03:07 by hel-makh         ###   ########.fr       */
+/*   Created: 2021/12/20 15:24:52 by hel-makh          #+#    #+#             */
+/*   Updated: 2021/12/22 21:55:41 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-int	ft_strcmp(const char *s1, const char *s2)
+#include "pipex.h"
+
+# define BUFFER_SIZE 1
+
+typedef struct s_list
 {
-	size_t	i;
+	int				fd;
+	char			content[BUFFER_SIZE + 1];
+	struct s_list	*next;
+}	t_list;
 
-	i = 0;
-	while (s1[i] != '\0' || s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i ++;
-	}
-	return (0);
-}
+void	ft_here_doc(char ***cmds, char *outfile, char *limiter);
+int     ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*get_next_line(int fd);
+
+#endif

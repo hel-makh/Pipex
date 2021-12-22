@@ -6,11 +6,11 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 19:22:20 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/21 17:59:17 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/22 22:02:57 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 static char	*get_fd_content(int fd, t_list *fd_list)
 {
@@ -104,7 +104,7 @@ static int	add_next_line(int fd, char **next_line)
 	return (1);
 }
 
-char	*get_next_line(int fd, char *prefix)
+char	*get_next_line(int fd)
 {
 	char	*next_line;
 
@@ -112,8 +112,6 @@ char	*get_next_line(int fd, char *prefix)
 	if (next_line == NULL)
 		return (0);
 	*next_line = '\0';
-	if (prefix)
-		write(1, prefix, ft_strlen(prefix));
 	while (add_next_line(fd, &next_line))
 		;
 	if (!*next_line)
