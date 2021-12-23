@@ -6,104 +6,105 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 13:55:32 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/20 16:19:11 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/23 12:22:48 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static char	*ft_strncpy(char *dst, const char *src, size_t len)
+static char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	str_len;
+	size_t	i;
+
+	if (s == NULL)
+		return (0);
+	str_len = len;
+	if (len > ft_strlen(s) - start)
+		str_len = ft_strlen(s) - start;
+	if (start >= ft_strlen(s))
+		str_len = 0;
+	str = (char *) malloc (sizeof(char) * (str_len + 1));
+	if (str == NULL)
+		return (0);
+	i = 0;
+	while (i < str_len)
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static char	**ft_free_arr(int i, char **arr)
+{
+	while (i--)
+		free(arr[i]);
+	free(arr);
+	return (0);
+}
+
+static size_t	ft_split_strlen(char const *s, char c)
+{
+	size_t	str_len;
+
+	str_len = 0;
+	while (s[str_len] && s[str_len] != c)
+		str_len++;
+	return (str_len);
+}
+
+static size_t	ft_count_strs(char const *s, char c)
 {
 	size_t	i;
-	size_t	src_len;
+	size_t	count;
 
+	count = 0;
 	i = 0;
-	src_len = ft_strlen(src);
-	while (i < len)
-	{
-		if (i <= src_len)
-			dst[i] = src[i];
-		else
-			dst[i] = '\0';
+	while (s[i] && s[i] == c)
 		i ++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-static void	ft_split_free_arr(char **arr, int len)
-{
-	while (len >= 0)
-		free(arr[len--]);
-	free(arr);
-}
-
-static int	ft_split_count(char *s, char c, int pos)
-{
-	int	str_count;
-
-	if (!*s)
-		return (0);
-	if (c == 0 && pos == 0)
-		return (1);
-	str_count = 0;
-	while (ft_strchr(s, c))
+	if (s[i] && s[i] != c)
 	{
-		if (ft_strlen(s) - ft_strlen(ft_strchr(s, c)) == 0)
-		{
-			s ++;
-			continue ;
-		}
-		str_count ++;
-		if (pos == str_count)
-			return (ft_strlen(s) - ft_strlen(ft_strchr(s, c)));
-		s = ft_strchr(s, c) + 1;
+		count++;
+		i++;
 	}
-	if (s && pos)
-		return (ft_strlen(s));
-	if (*s)
-		str_count ++;
-	return (str_count);
-}
-
-static char	**ft_split_fill_arr(char **arr, int arr_len, char const *s, char c)
-{
-	char	*temp_s;
-	int		str_len;
-	int		i;
-
-	temp_s = (char *)s;
-	i = 0;
-	while (i < arr_len)
+	while (s[i])
 	{
-		while (*temp_s == c)
-			temp_s ++;
-		str_len = ft_split_count((char *)s, c, i + 1);
-		arr[i] = (char *) malloc ((str_len + 1) * sizeof(char));
-		if (arr[i] == NULL)
-		{
-			ft_split_free_arr(arr, i - 1);
-			return (0);
-		}
-		ft_strncpy(arr[i], temp_s, str_len);
-		temp_s += str_len + 1;
-		i ++;
+		if (s[i - 1] == c && s[i] != c)
+			count++;
+		i++;
 	}
-	arr[i] = NULL;
-	return (arr);
+	return (count);
 }
 
 char	**ft_split(char const *s, char c)
 {
+	size_t	i;
+	size_t	j;
+	size_t	str_len;
 	char	**arr;
-	int		arr_len;
 
-	if (s == NULL)
+	if (!s)
 		return (0);
-	arr_len = ft_split_count((char *)s, c, 0);
-	arr = (char **) malloc ((arr_len + 1) * sizeof(char *));
+	arr = (char **) malloc (sizeof(char *) * (ft_count_strs(s, c) + 1));
 	if (arr == NULL)
 		return (0);
-	arr = ft_split_fill_arr(arr, arr_len, s, c);
+	i = 0;
+	j = 0;
+	while (i < ft_count_strs(s, c))
+	{
+		while (s[j] == c)
+			j++;
+		str_len = ft_split_strlen(&s[j], c);
+		arr[i] = ft_substr(s, j, str_len);
+		if (arr[i] == NULL)
+			return (ft_free_arr(i, arr));
+		j += str_len;
+		i ++;
+	}
+	arr[i] = 0;
 	return (arr);
 }

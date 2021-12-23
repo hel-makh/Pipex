@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 15:24:52 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/22 21:58:40 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/23 12:23:23 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 size_t	ft_strlen(const char *s);
 char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strdup(const char *s1);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c);
 char	*ft_strstr(const char *haystack, const char *needle);
 char	*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char	**ft_split(char const *s, char c);

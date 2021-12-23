@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 22:39:02 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/22 00:46:11 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/23 19:46:19 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 char	*ft_cmdpath(char *cmd, char *envp[])
 {
-	char	*cmd_path;
 	char	*env_path;
 	char	**paths;
 	int		i;
 
 	if (!cmd || !ft_strlen(cmd))
-		return (NULL);
+		return (ft_strdup(""));
 	env_path = ft_getenv("PATH", envp);
 	if (!env_path)
-		return (NULL);
+		return (ft_strdup(""));
 	paths = ft_split(env_path, ':');
 	i = 0;
 	while (paths[i])
 	{
-		paths[i] = ft_strnjoin(paths[i], "/", ft_strlen("/"));
+		paths[i] = ft_strnjoin(paths[i], "/", 1);
 		paths[i] = ft_strnjoin(paths[i], cmd, ft_strlen(cmd));
-		if (access(paths[i], F_OK) == 0)
+		if (access(paths[i], X_OK) == 0)
 		{
-			cmd_path = ft_strdup(paths[i]);
 			ft_free_2d(paths);
-			return (cmd_path);
+			return (ft_strdup(paths[i]));
 		}
 		i ++;
 	}
-	return (NULL);
+	ft_free_2d(paths);
+	return (ft_strdup(""));
 }

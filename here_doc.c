@@ -6,13 +6,15 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 21:10:00 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/22 22:09:28 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/23 12:05:19 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex_bonus.h"
 
-static void	ft_hd_exec_first_cmd(char **cmd, char *infile, int p[2])
+static void	ft_hd_exec_first_cmd(
+	char **cmd, char *infile, int p[2], char *envp[]
+	)
 {
 	int	fd;
 
@@ -24,11 +26,13 @@ static void	ft_hd_exec_first_cmd(char **cmd, char *infile, int p[2])
 	if (dup2(fd, STDIN_FILENO) == -1)
 		exit(ft_perror("input-file dup2"));
 	close(fd);
-	execve(cmd[0], cmd, NULL);
+	execve(cmd[0], cmd, envp);
 	exit(EXIT_FAILURE);
 }
 
-static void	ft_hd_exec_second_cmd(char **cmd, char *outfile, int p[2])
+static void	ft_hd_exec_second_cmd(
+	char **cmd, char *outfile, int p[2], char *envp[]
+	)
 {
 	int		fd;
 	pid_t	pid;
@@ -49,14 +53,16 @@ static void	ft_hd_exec_second_cmd(char **cmd, char *outfile, int p[2])
 		if (dup2(fd, STDOUT_FILENO) == -1)
 			exit(ft_perror("output-file dup2"));
 		close(fd);
-		execve(cmd[0], cmd, NULL);
+		execve(cmd[0], cmd, envp);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 }
 
-static void	ft_hd_multiple_pipes(char ***cmds, char *infile, char *outfile)
+static void	ft_hd_multiple_pipes(
+	char ***cmds, char *infile, char *outfile, char *envp[]
+	)
 {
 	int		i;
 	int		p[2];
@@ -71,20 +77,22 @@ static void	ft_hd_multiple_pipes(char ***cmds, char *infile, char *outfile)
 		if (pid == -1)
 			exit(ft_perror("fork"));
 		else if (pid == 0)
-			ft_hd_exec_first_cmd(cmds[i], infile, p);
+			ft_hd_exec_first_cmd(cmds[i], infile, p, envp);
 		else if (pid > 0)
 		{
 			waitpid(pid, NULL, 0);
 			if (cmds[i + 2])
-				ft_hd_exec_second_cmd(cmds[++i], infile, p);
+				ft_hd_exec_second_cmd(cmds[++i], infile, p, envp);
 			else
-				ft_hd_exec_second_cmd(cmds[++i], outfile, p);
+				ft_hd_exec_second_cmd(cmds[++i], outfile, p, envp);
 		}
 		i ++;
 	}
 }
 
-void	ft_here_doc(char ***cmds, char *outfile, char *limiter)
+void	ft_here_doc(
+	char ***cmds, char *outfile, char *limiter, char *envp[]
+	)
 {
 	int		i;
 	int		fd;
@@ -109,6 +117,6 @@ void	ft_here_doc(char ***cmds, char *outfile, char *limiter)
 	write(fd, input, ft_strlen(input));
 	close(fd);
 	free(input);
-	ft_hd_multiple_pipes(cmds, ".here_doc", outfile);
+	ft_hd_multiple_pipes(cmds, ".here_doc", outfile, envp);
 	unlink(".here_doc");
 }

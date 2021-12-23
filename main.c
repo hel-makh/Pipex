@@ -6,7 +6,7 @@
 /*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 12:20:36 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/22 22:09:47 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/23 19:45:43 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 // #include "srcs/ft_perror.c"
 // #include "srcs/ft_execve_argv.c"
 
-static void	ft_exec_first_cmd(char **cmd, char *infile, int p[2])
+static void	ft_exec_first_cmd(
+	char **cmd, char *infile, int p[2], char *envp[]
+	)
 {
 	int	fd;
 
@@ -37,11 +39,13 @@ static void	ft_exec_first_cmd(char **cmd, char *infile, int p[2])
 	if (dup2(fd, STDIN_FILENO) == -1)
 		exit(ft_perror("input-file dup2"));
 	close(fd);
-	execve(cmd[0], cmd, NULL);
+	execve(cmd[0], cmd, envp);
 	exit(EXIT_FAILURE);
 }
 
-static void	ft_exec_second_cmd(char **cmd, char *outfile, int p[2])
+static void	ft_exec_second_cmd(
+	char **cmd, char *outfile, int p[2], char *envp[]
+	)
 {
 	int		fd;
 	pid_t	pid;
@@ -59,14 +63,16 @@ static void	ft_exec_second_cmd(char **cmd, char *outfile, int p[2])
 		if (dup2(fd, STDOUT_FILENO) == -1)
 			exit(ft_perror("output-file dup2"));
 		close(fd);
-		execve(cmd[0], cmd, NULL);
+		execve(cmd[0], cmd, envp);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
 }
 
-static void	ft_pipe(char ***cmds, char *infile, char *outfile)
+static void	ft_pipe(
+	char ***cmds, char *infile, char *outfile, char *envp[]
+	)
 {
 	int		p[2];
 	pid_t	pid;
@@ -77,11 +83,11 @@ static void	ft_pipe(char ***cmds, char *infile, char *outfile)
 	if (pid == -1)
 		exit (ft_perror("fork"));
 	else if (pid == 0)
-		ft_exec_first_cmd(cmds[0], infile, p);
+		ft_exec_first_cmd(cmds[0], infile, p, envp);
 	else if (pid > 0)
 	{
 		waitpid(pid, NULL, 0);
-		ft_exec_second_cmd(cmds[1], outfile, p);
+		ft_exec_second_cmd(cmds[1], outfile, p, envp);
 	}
 }
 
@@ -92,11 +98,14 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 5)
 		exit(EXIT_FAILURE);
-	i = -1;
-	while (++i < argc - 3)
+	i = 0;
+	while (i < argc - 3)
+	{
 		cmds[i] = ft_execve_argv(argv[i + 2], envp);
+		i ++;
+	}
 	cmds[i] = NULL;
-	ft_pipe(cmds, argv[1], argv[argc - 1]);
+	ft_pipe(cmds, argv[1], argv[argc - 1], envp);
 	ft_free_3d(cmds);
 	return (EXIT_SUCCESS);
 }

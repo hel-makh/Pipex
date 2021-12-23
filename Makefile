@@ -12,15 +12,12 @@ NAME			=	pipex
 MAIN			=	main.c
 
 MAIN_BONUS		=	main_bonus.c\
-					here_doc.c\
-					$(SRCSDIR)/ft_strcmp.c\
-					$(SRCSDIR)/ft_strncmp.c\
-					$(SRCSDIR)/get_next_line.c
+					here_doc.c
 
 SRCS			=	$(SRCSDIR)/ft_strlen.c\
 					$(SRCSDIR)/ft_strcpy.c\
 					$(SRCSDIR)/ft_strdup.c\
-					$(SRCSDIR)/ft_strchr.c\
+					$(SRCSDIR)/ft_strrchr.c\
 					$(SRCSDIR)/ft_strstr.c\
 					$(SRCSDIR)/ft_strnjoin.c\
 					$(SRCSDIR)/ft_split.c\
@@ -30,10 +27,16 @@ SRCS			=	$(SRCSDIR)/ft_strlen.c\
 					$(SRCSDIR)/ft_execve_argv.c\
 					$(SRCSDIR)/ft_perror.c
 
+SRCS_BONUS		=	$(SRCS)\
+					$(SRCSDIR)/ft_strcmp.c\
+					$(SRCSDIR)/ft_strncmp.c\
+					$(SRCSDIR)/ft_strchr.c\
+					$(SRCSDIR)/get_next_line.c
+
 OBJS			=	$(SRCS:.c=.o)\
 					$(MAIN:.c=.o)
 
-OBJS_BONUS		=	$(SRCS:.c=.o)\
+OBJS_BONUS		=	$(SRCS_BONUS:.c=.o)\
 					$(MAIN_BONUS:.c=.o)
 
 GCC				=	cc
