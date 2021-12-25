@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hel-makh <hel-makh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hel-makh <hel-makh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 12:20:36 by hel-makh          #+#    #+#             */
-/*   Updated: 2021/12/23 19:45:43 by hel-makh         ###   ########.fr       */
+/*   Updated: 2021/12/25 15:07:50 by hel-makh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
-
-// #include "srcs/ft_free.c"
-// #include "srcs/ft_split.c"
-// #include "srcs/ft_strchr.c"
-// #include "srcs/ft_strcpy.c"
-// #include "srcs/ft_strdup.c"
-// #include "srcs/ft_strlen.c"
-// #include "srcs/ft_strnjoin.c"
-// #include "srcs/ft_strstr.c"
-// #include "srcs/ft_getenv.c"
-// #include "srcs/ft_cmdpath.c"
-// #include "srcs/ft_perror.c"
-// #include "srcs/ft_execve_argv.c"
 
 static void	ft_exec_first_cmd(
 	char **cmd, char *infile, int p[2], char *envp[]
